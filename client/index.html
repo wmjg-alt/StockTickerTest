@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang='en'>
+	<head>
+	  <meta charset="utf-8">
+	  <title>Stock Ticker Game</title>
+	  <link rel="stylesheet" href="client/ticker.css" type="text/css">
+	  <link rel="icon" href="client/img/dice.png" type="image/icon type"><!--200x200ish-->
+	</head>
+
+
+	<body bgcolor='black'>
+	<div id = 'TOP'>
+		<div id = 'buypanel'></div>
+		<div id = 'main'> 
+			<iframe id='tabby' src='client/ticktable.html' scrolling='no';> </iframe>
+		</div>
+		<div id = 'status'> 
+			<div id = 'players'> </div>
+			<div id = 'dice'> 
+				<div id='d1' onclick="roll('d1')"></div>
+				<div id='d2' onclick="roll('d2')"></div>
+				<div id='d3' onclick="roll('d3')"></div>
+				<p id = 'rolllog' style="font-size:25px; position:relative; top:10%"> </p>
+				
+			</div>
+		</div>
+		<p id='dividend'>DIVIDENDS PAY</p><p id="nodiv">NO DIVIDENDS</p>
+	</div>
+	<div id = 'BOT'>
+		<div id = 'portfolio'> <p>YOUR PORTFOLIO:</p></div>
+		<div id = 'totals'> STOCKS VALUE: ...<br>CASH-ON-HAND: ... </div>
+	</div>
+	<div id='roll' onclick='stop()'> Roll 'Em </div>
+	<script>
+	//for a starting screen, question about waht stocks you want to use, random NSADAQ, type my own, classic, NLSS pack
+	//then document.write this page in
+		var vals = [100,100,100,100,100,100]
+		var bonds = ['#658CBB', '#6965BB', '#8CBB65', '#BB658C', '#65B7BB','#BB6965']
+		var stat = ""
+		var log =""
+		var logo = "none yet"
+		var runt= false
+		function stop(){runt=!runt;}
+		function sell(s){
+			targ = document.getElementById('stock'+s);
+			targ.remove();
+		}
+		function purchase(s){
+			var cost = (vals[5-s]*5)
+			var hand = document.getElementById('portfolio')
+			if(true){//if you have the cash
+				//sub that cash from your hand
+				hand.innerHTML = hand.innerHTML + "<div class='bond' id='stock"+s+"' onclick='sell("+s+")'style='background:"+bonds[s]+"'> STOCK "+String.fromCharCode(s+65)+" <br> 500 Shares <br> BOND    X 1</div>"
+			}
+		}
+		function bp_up(){
+			var bp = document.getElementById('buypanel')
+			var bpi = "THE BANK <br> AVAILABLE:"
+			for(var s=0; s < vals.length;s++){
+				bp.innerHTML = bpi+ "<div class='stonk' onclick='purchase("+s+")' style='background:"+bonds[s]+"'> STOCK "+String.fromCharCode(s+65)+" - 500 Shares <br> CERTIFICATE </div><p class='st_stat'> MARKET VALUE: $"+(vals[5-s]/100).toFixed(2)+"<br>COST PER: $"+ (vals[5-s]*5)+ "</p>"
+				bpi=bp.innerHTML
+			}
+		}
+		bp_up()
+		function logger(r,stk,val){
+			var help = 'by'
+			var c = 'cents'
+			stat = r
+			if(r=="DN"){stat = 'DOWN'}
+			else if (r=='DV'){stat = 'DIVIDEND'; help='of'; c=""}
+			var log1 = "Stock " + stk+ '\n' 
+			var log2 = stat+' '+help+" "+val+c+'\n\n'
+			log =log1+log2
+			document.getElementById('rolllog').innerText = "ThisRoll: "+log + "LastRoll: "+logo
+			logo=log
+			log=""
+		}
+		function update(r, x, y){			
+			var ife = document.getElementById('tabby')
+			var tib = ife.contentWindow.document.getElementById('tab')
+			
+			x = 7-(x.charCodeAt() -64) 
+			y = y/5
+			
+			if(r === 'DN'){y = y *-1}
+			else if (r ==='DV'){return 0;}
+			
+			var z = tib.rows.length-((vals[x-1] /5)+1)
+			var tmp = tib.rows[z].cells[x]
+			if (z-y<=1){console.log('STOCK SPLIT',z-y)
+				vals[x-1] = 100
+				z=21;  
+				tib.rows[z].cells[x].innerHTML = tmp.innerHTML
+			}
+			else if (z-y>40){console.log('STOCK DROP',z-y);
+				vals[x-1] = 100
+				z=21; 
+				tib.rows[z].cells[x].innerHTML = tmp.innerHTML
+			}
+			else{
+				tib.rows[z-y].cells[x].innerHTML = tmp.innerHTML
+				vals[x-1] += (y*5);
+			}
+			tmp.innerHTML = "";
+			
+		}
+		function rollall(){
+			var r = roll('d1')
+			var x = roll('d2')
+			var y = roll('d3')
+			update(r,x,y)
+			logger(r,x,y)
+			bp_up();
+		}
+		function roll(die){
+			x = Math.floor(Math.random()*6)+1;
+			var ret = -1
+			if (die=='d2'){
+				x= x+64
+				ret=String.fromCharCode(x);
+			}
+			else{
+				x = (x % 3)+1;
+				if(die=='d3'){
+					x *=5
+					if(x==15){x=20;}
+					ret=x;
+				}
+				else{
+					var res = ''
+					if(x==1){res='DN'}
+					else if(x==2){res='UP'}
+					else{res='DV'}
+					ret = res;
+				}
+			}
+			document.getElementById(die).innerHTML = ret
+			return ret
+		}
+		
+		</script>
+		<script src = "https://cdn.socket.io/socket.io-1.4.5.js"></script>
+		<script>
+		//These avoid ugly hightlight on buttons made of divs
+		document.getElementById('TOP').addEventListener('mousedown',function(e){e.preventDefault();},false);
+		document.getElementById('BOT').addEventListener('mousedown',function(e){e.preventDefault();},false);
+		var socket = io();
+		socket.on('update', function(data){
+			return
+		})
+		setInterval(function(){
+			if(runt){rollall()}
+
+		},100);
+	</script>
+	</body>
+</html>

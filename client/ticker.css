@@ -1,0 +1,179 @@
+#TOP { width: 98%;
+	height: 74%;
+	margin: auto;
+	border: 2px solid red;
+	position:absolute;
+	top:1%;
+	left:1%;
+
+}
+
+#BOT{width: 97%;
+	height: 22%;
+	margin: auto;
+	border: 2px solid brown;
+	background: Grey;
+	position:absolute;
+	bottom:1%;
+	left:2%;
+}
+
+#buypanel {width: 15%;
+height:100%;
+background:Blue;
+float:left;
+font-size:150%;
+color:white;
+}
+
+.stonk {height:7%;
+width: 75%;
+font-size:1vw;
+text-align:center;
+margin:auto;
+color:black;
+border-radius:10px;
+}
+
+.st_stat {font-size:1vw;
+background:white;
+color:black;
+text-align:center;
+position:relative;
+top:-2.5%;
+margin-bottom:0%;
+}
+
+
+#main {width: 69%;
+height:100%;
+background:Tan;
+float:left
+
+}
+
+#stocks {
+
+}
+
+#ticker {
+
+}
+#tabby {display:block;
+	border:none;
+	width:100%;
+	height:100%;	
+}
+#dividend{font-size:4.5vw;
+	transform:rotate(42deg);
+	color:white;
+	position:fixed;
+	top:25%;
+	left:20%;
+	opacity:0.3
+}
+#nodiv{font-size:4.5vw;
+	transform:rotate(42deg);
+	color:white;
+	position:fixed;
+	top:25%;
+	left:50%;
+	opacity:0.3
+}
+#track {
+
+}
+
+#status {width: 16%;
+height:100%;
+background:Green;
+float:right;
+
+}
+
+#players {
+
+}
+
+#dice {border-radius:10%;
+background:DarkKhaki;
+height:45%;
+width:98%;
+margin:auto;
+font-size:8vh;
+text-align:center;
+}
+
+#d1{float:left;
+border: 1px solid black;
+background:Red;
+width:32%;
+height:27%;
+border-radius: 20px;
+position:relative;
+left:1%;
+top:10%;
+font-size:6vh;
+padding-top:5%;}
+
+#d2{float:left;
+border: 1px solid black;
+background:Blue;
+width:32%;
+height:32%;
+border-radius: 20px;
+position:relative;
+left:1%;
+top:10%}
+
+#d3{float:right;
+border: 1px solid black;
+background:Grey;
+width:32%;
+height:32%;
+border-radius: 20px;
+position:relative;
+right:1%;
+top:10%}
+
+#roll {
+position: fixed;
+bottom:45%;
+right:-5px;
+width:10%;
+height:10%;
+background:White;
+border-radius:50px 0px 0px 50px;
+border: 3px solid silver;
+font-size: 4vh;
+padding-top:2%;
+padding-left:2%;
+}
+
+#portfolio {float:left;
+height:100%;
+width:50%;
+background: black;
+border-radius: 5px;
+color:white;
+font-size:200%;
+}
+#portfolio p {
+	position:absolute;
+	bottom:0px;
+	left:15%;
+	margin:auto;
+}
+.bond{float:left;
+	height:70%;
+	width:16%;
+	font-size:2vh;
+	border-radius:10px;
+}
+#totals {float:right;
+font-size: 250%;
+height:100%;
+width:39%;
+background:orange;
+border-radius:10px;
+}
